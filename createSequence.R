@@ -1,4 +1,4 @@
-createSequence <- function (units,iterations){
+createSequence <- function (units,iterations,bool=FALSE){
  
   #creates matrix with possible iterations
   matrix = matrix(data=iterations,nrow=units,ncol=units)
@@ -18,7 +18,7 @@ createSequence <- function (units,iterations){
   }
   
   #creates the first unit in the sequence
-  last = sample.int(units,1,replace=FALSE)
+  last = sample.int(units,1,replace=bool)
   
   #starts writing the sequence
   sequence = toString(last)
@@ -29,14 +29,14 @@ createSequence <- function (units,iterations){
     
     # this loop randomly chooses next unit and if the itteration is possible it assigns it and skips forwards
     while (!assigned){
-      possib = sample.int(units,1,replace=FALSE)
+      possib = sample.int(units,1,replace=bool)
       if (matrix[last,possib]!=0){
         # lowers the number of iterations
         matrix[last,possib]=matrix[last,possib]-1
         assigned = TRUE
       }
     }
-   
+    
     # if a row becomes empty we can't return to it anymore, as it wont be able to iterate to other unit
     # therefore we delete the possibility to return to it from any other unit
     if (all(matrix[last,]==fullMatrix[last,])){
@@ -51,21 +51,24 @@ createSequence <- function (units,iterations){
     sequence=paste(c(sequence,toString(last)),sep="",collapse="")
   }
   
-#   discardedMatrix2 = discardedMatrix
-#   last2 = last
-#   sequence2 = sequence
+  discardedMatrix2 = discardedMatrix
+  last2 = last
+  sequence2 = sequence
+  
   while(!all(discardedMatrix==fullMatrix)){
-#     if (all(discardedMatrix[last,]==fullMatrix)){
-#       discardedMatrix = discardedMatrix2
-#       last = last2
-#       sequence=sequence2
-#     }
-    for (o in 1:units){
-      if(discardedMatrix[last,o]!=0){
-        discardedMatrix[last,o]=discardedMatrix[last,o]-1
-        last = o
+    assigned=FALSE
+    if (all(discardedMatrix[last,]==fullMatrix[last,])){
+      discardedMatrix = discardedMatrix2
+      last = last2
+      sequence=sequence2
+    }
+    while(!assigned){
+      possib = sample.int(units,1,replace=bool)
+      if(discardedMatrix[last,possib]!=0){
+        discardedMatrix[last,possib]=discardedMatrix[last,possib]-1
+        last = possib
         sequence=paste(c(sequence,toString(last)),sep="",collapse="")
-        o=100
+        assigned=TRUE
       } 
     }
   }
@@ -73,16 +76,16 @@ createSequence <- function (units,iterations){
 }
 
 
-checkSequence <- function (kod,num){
+checkSequence <- function (sequence,num){
   mat<-matrix(nrow=num,ncol=num,byrow=TRUE)
   for (n in 1:num){
     for (m in 1:num){
       mat[m,n]=0
     }
   }
-  for (i in 1:nchar(kod)){
-    a<-as.integer(substr(kod,i,i))
-    b<-as.integer(substr(kod,i+1,i+1))
+  for (i in 1:nchar(sequence)){
+    a<-as.integer(substr(sequence,i,i))
+    b<-as.integer(substr(sequence,i+1,i+1))
     mat[a,b] <- mat [a,b]+1
   }
   return(mat)

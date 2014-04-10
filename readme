@@ -1,20 +1,19 @@
-This script was written in R version 3.0.3 and it uses randomizin function that might not work with older versions.
+This script was written in R version 3.0.3 and it uses randomizing function that might not work with older versions.
 
-Also to note this script is not functional all the time. For some unknown reasons sometimes it gets stuck in one of its While loops. 
+Also to note this script is not functional all the time. For some unknown reasons it gets stuck form time to time in one of its While loops. 
 If it doesn't produce the code in about 10-20 seconds you should stop it and try to run again.
 
+This script creates a sequence of numbers so that every possible pair of these numbers (three numbers: 12, 13, 23, 31, 21, 32) occurs given number of times.
 
-This script creates a sequence of given number of different units so that every possible pair of these units (three units: 12, 13, 23, 31, 21, 32) occurs given number number of times.
+createSequence takes three parametres:
 
-createSequence takes 3 parametres:
-
-units : int -Number of different units you want to sequence 
+units : int - Number of different units/numbers you want to sequence 
 iterations: int - Number of iterations of all the possible pairs. 
-bool: boolean - Chenges a bit behaviour of sample.int function. Read the readme file to sample.int
+bool: boolean - Changes behaviour of sample.int function. Read the readme file to sample.int
 
-checkSequence is a script to evaluate validity of produced sequence. It returns a matrix in which the cell notes the numebr of times given pair occurs in the string parameter.
+checkSequence is a script written to evaluate the validity of produced sequence. It returns a matrix in which the cells note the number of times given pair occurs in the string parameter.
 
-checkSequence takes 2 parameters:
+checkSequence takes two parameters:
 sequence : string - Sequence you want to check
 num : int - number of different units there are in a sequence
 
