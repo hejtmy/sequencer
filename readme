@@ -1,0 +1,44 @@
+This script was written in R version 3.0.3 and it uses randomizin function that might not work with older versions.
+
+Also to note this script is not functional all the time. For some unknown reasons sometimes it gets stuck in one of its While loops. 
+If it doesn't produce the code in about 10-20 seconds you should stop it and try to run again.
+
+
+This script creates a sequence of given number of different units so that every possible pair of these units (three units: 12, 13, 23, 31, 21, 32) occurs given number number of times.
+
+createSequence takes 3 parametres:
+
+units : int -Number of different units you want to sequence 
+iterations: int - Number of iterations of all the possible pairs. 
+bool: boolean - Chenges a bit behaviour of sample.int function. Read the readme file to sample.int
+
+checkSequence is a script to evaluate validity of produced sequence. It returns a matrix in which the cell notes the numebr of times given pair occurs in the string parameter.
+
+checkSequence takes 2 parameters:
+sequence : string - Sequence you want to check
+num : int - number of different units there are in a sequence
+
+Example of what these script do:
+
+> a=createSequence(3,1,FALSE)
+> a
+[1] "2321312"
+
+checkSequence(a,3)
+
+     [,1] [,2] [,3]
+[1,]    0    1    1
+[2,]    1    0    1
+[3,]    1    1    0
+
+
+> a=createSequence(4,10)
+> a
+[1] "4343242412321243141212134324132432141414232413141424242323241241213123121423213431323431434343413142312314234213421312134"
+
+> checkSequence(a,4)
+     [,1] [,2] [,3] [,4]
+[1,]    0   10   10   10
+[2,]   10    0   10   10
+[3,]   10   10    0   10
+[4,]   10   10   10    0
