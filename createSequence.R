@@ -96,10 +96,11 @@ createSequence <- function (units,iterations,samePair=FALSE, bool=FALSE){
                } 
           }
      }
-     # Prints out the sequence
-     return(sequence)
+    
+     checkSequence(sequence,units)
+     
+     sequence
 }
-
 
 checkSequence <- function (sequence,num){
      mat<-matrix(nrow=num,ncol=num,byrow=TRUE)
@@ -113,6 +114,7 @@ checkSequence <- function (sequence,num){
           b<-as.integer(substr(sequence,i+1,i+1))
           mat[a,b] <- mat [a,b]+1
      }
+     print(mat)
      return(mat)
 }
 

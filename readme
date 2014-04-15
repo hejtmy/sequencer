@@ -1,11 +1,10 @@
 This script was written in R version 3.0.3 and it uses randomizing function that might not work with older versions. 
 
-I also used = sign for assigning. It is fully compatible with later versions of R, but might produce errors with R before 3.0
+I also used = sign for assigning values to vectors. It is fully compatible with later versions of R, but might produce errors with R before 3.0
 
-Also to note this script is not functional all the time. For some unknown reasons it gets stuck form time to time in one of its While loops. 
-If it does get stuck, it print's out an apology and you can try to enter your request again.
+Important to note, this script is not functional all the time. For some unknown reasons about one time out of ten it gets stuck in one of its while loops. If it does get stuck, it prints out an apology. You can try to enter your request again. Hopefully you will be luckier! 
 
-##What it does?
+What it does?
 
 This script creates a sequence of numbers so that every possible pair of these numbers (three numbers: 12, 13, 23, 31, 21, 32) 
 occurs given number of times.
@@ -38,7 +37,6 @@ checkSequence(a,3)
 [2,]    1    0    1
 [3,]    1    1    0
 
-
 > a=createSequence(4,10)
 > a
 [1] "434324241232124314121213432413243214141423241314142424232324124121312312
@@ -50,9 +48,6 @@ checkSequence(a,3)
 [2,]   10    0   10   10
 [3,]   10   10    0   10
 [4,]   10   10   10    0
-
-> createSequence(4,4,samePair=T)
-[1] "42243431141112443143211442131212122232244133144132324234234133334"
 
 > a=createSequence(4,4,samePair=T)
 > a
