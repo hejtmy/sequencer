@@ -1,19 +1,27 @@
-This script was written in R version 3.0.3 and it uses randomizing function that might not work with older versions.
+This script was written in R version 3.0.3 and it uses randomizing function that might not work with older versions. 
+
+I also used = sign for assigning. It is fully compatible with later versions of R, but might produce errors with R before 3.0
 
 Also to note this script is not functional all the time. For some unknown reasons it gets stuck form time to time in one of its While loops. 
-If it doesn't produce the code in about 10-20 seconds you should stop it and try to run again.
+If it does get stuck, it print's out an apology and you can try to enter your request again.
 
-This script creates a sequence of numbers so that every possible pair of these numbers (three numbers: 12, 13, 23, 31, 21, 32) occurs given number of times.
+##What it does?
 
-createSequence takes three parametres:
+This script creates a sequence of numbers so that every possible pair of these numbers (three numbers: 12, 13, 23, 31, 21, 32) 
+occurs given number of times.
+
+#createSequence takes four parametres:
 
 units : int - Number of different units/numbers you want to sequence 
 iterations: int - Number of iterations of all the possible pairs. 
+samePair : boolean - If set to TRUE, create sequence allows same pair to be produced and iterated given number of times (11,22,33 etc.)
 bool: boolean - Changes behaviour of sample.int function. Read the readme file to sample.int
 
-checkSequence is a script written to evaluate the validity of produced sequence. It returns a matrix in which the cells note the number of times given pair occurs in the string parameter.
+checkSequence is a script written to evaluate the validity of a produced sequence. It returns a matrix in which the cells note the number of times 
+given pair occurs in the string parameter.
 
-checkSequence takes two parameters:
+#checkSequence takes two parameters:
+
 sequence : string - Sequence you want to check
 num : int - number of different units there are in a sequence
 
@@ -33,7 +41,8 @@ checkSequence(a,3)
 
 > a=createSequence(4,10)
 > a
-[1] "4343242412321243141212134324132432141414232413141424242323241241213123121423213431323431434343413142312314234213421312134"
+[1] "434324241232124314121213432413243214141423241314142424232324124121312312
+1423213431323431434343413142312314234213421312134"
 
 > checkSequence(a,4)
      [,1] [,2] [,3] [,4]
@@ -41,3 +50,17 @@ checkSequence(a,3)
 [2,]   10    0   10   10
 [3,]   10   10    0   10
 [4,]   10   10   10    0
+
+> createSequence(4,4,samePair=T)
+[1] "42243431141112443143211442131212122232244133144132324234234133334"
+
+> a=createSequence(4,4,samePair=T)
+> a
+[1] "34311321214341231443133324414222244341123412331323324242144221113"
+
+> checkSequence(a,4)	
+     [,1] [,2] [,3] [,4]
+[1,]    4    4    4    4
+[2,]    4    4    4    4
+[3,]    4    4    4    4
+[4,]    4    4    4    4
