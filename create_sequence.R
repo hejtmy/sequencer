@@ -1,20 +1,22 @@
-create_sequence = function (units, iterations, samePair = FALSE, bool = FALSE){
+#' @param max_same: how many same units can follow
+#' 
+create_sequence = function (units, iterations, max_same = 0, bool = FALSE){
   
   #creates matrix with possible iterations
   matrix = matrix(data = iterations, nrow = units, ncol = units)
   
   #creates empty matrix to be compared with the matix state
   #If matrix == fullMatrix the script has nowhere to go and finnishes
-  fullMatrix = matrix(data = 0,nrow = units, ncol = units)
+  fullMatrix = matrix(data = 0, nrow = units, ncol = units)
   
   #creates third empty matrix that fill us when possible units dissapear from matrix
   
   discardedMatrix = matrix(data = 0, nrow = units, ncol = units)
   discardedMatrix2 = matrix(data = 0, nrow = units, ncol = units)
   
-  #fills in the matrix at n,n with 0
+  # fills in the matrix at n, n with 0
   # therefore pair the same numbers can't follow one another (11,22 .. etc. aren't allowed)
-  if (!samePair){
+  if (max_same == 0){
     for (n in 1:units){
       matrix[n, n] = 0
     }
@@ -24,18 +26,24 @@ create_sequence = function (units, iterations, samePair = FALSE, bool = FALSE){
   
   #starts writing the sequence
   sequence = toString(last)
+  n_repetitions = 0
   
   #now function starts creating the sequence untill it has nowhere to go
   while (!all(matrix == fullMatrix)){
+    
     assigned = FALSE
     assignTry = 0
     # this loop randomly chooses next unit and if the itteration is possible it assigns it and skips forwards
     while (!assigned){
       possib = sample.int(units, 1, replace = bool)
+      if (possib == last){n_repetitions = n_repetitions +1} else {n_repetitions = 0}
       if (matrix[last, possib] != 0){
-        # lowers the number of iterations
-        matrix[last, possib] = matrix[last, possib] - 1
-        assigned = TRUE
+        #checks if we didn't already have it many times in a row
+        if (n_repetitions < max_same){
+          # lowers the number of iterations
+          matrix[last, possib] = matrix[last, possib] - 1
+          assigned = TRUE
+        }
       }
       # if the loop can't find possible unit to iterate to it means it got 
       # stuck. Return an apology and quit the function
