@@ -25,7 +25,7 @@ create_sequence = function (units, iterations, max_same = 0, bool = FALSE){
   last = sample.int(units, 1, replace = bool)
   
   #starts writing the sequence
-  sequence = toString(last)
+  sequence = last
   n_repetitions = 0
   
   #now function starts creating the sequence untill it has nowhere to go
@@ -36,8 +36,8 @@ create_sequence = function (units, iterations, max_same = 0, bool = FALSE){
     # this loop randomly chooses next unit and if the itteration is possible it assigns it and skips forwards
     while (!assigned){
       possib = sample.int(units, 1, replace = bool)
-      if (possib == last){n_repetitions = n_repetitions +1} else {n_repetitions = 0}
       if (matrix[last, possib] != 0){
+        if (possib == last){n_repetitions = n_repetitions + 1} else {n_repetitions = 0}
         #checks if we didn't already have it many times in a row
         if (n_repetitions < max_same){
           # lowers the number of iterations
@@ -49,7 +49,8 @@ create_sequence = function (units, iterations, max_same = 0, bool = FALSE){
       # stuck. Return an apology and quit the function
       assignTry = assignTry + 1
       if (assignTry > 50){
-        return("Sorry, couldn't randomise the sequence. Let me try that again.")    
+        print("Sorry, couldn't randomise the sequence. Let me try that again.")
+        return(NULL)
       }
     }
     
@@ -64,15 +65,15 @@ create_sequence = function (units, iterations, max_same = 0, bool = FALSE){
     }
     last = possib
     #adds to the sequence
-    sequence = paste(c(sequence, toString(last)), sep = "", collapse = "")
+    sequence = c(sequence, last)
   }
   
   # This part creates a backup to come back to if the randomising of the next 
   # section doesn't work out the first time
   discardedMatrix2 = discardedMatrix
   last2 = last
-  sequence2 = sequence
-  
+  sequence_save = sequence
+  n_repetitions = 0
   # Do this until the discardedMatrix is empty
   while(!all(discardedMatrix == fullMatrix)){
     assigned = FALSE
@@ -83,29 +84,30 @@ create_sequence = function (units, iterations, max_same = 0, bool = FALSE){
     if (all(discardedMatrix[last, ] == fullMatrix[last, ])){
       discardedMatrix = discardedMatrix2
       last = last2
-      sequence = sequence2
+      sequence = sequence_save
     }
     
     # DO this until you find a possible unit
     while(!assigned){
       # RAndomises a number
       possib = sample.int(units, 1, replace = bool)
-      
+      if (possib == last){n_repetitions = n_repetitions + 1} else {n_repetitions = 0}
       # If the last unit can iterate ot this number, it does
-      if(discardedMatrix[last,possib]!=0){
-        
+      if(discardedMatrix[last, possib] != 0){
+        #checks if we didn't already have it many times in a row
+        if (n_repetitions > max_same) return(NULL)
         # Decrease number of possible iterations to that unit
         discardedMatrix[last, possib] = discardedMatrix[last, possib] - 1
         last = possib
-        
         #Adds to the sequence
-        sequence = paste(c(sequence, toString(last)), sep = "", collapse = "")
+        sequence = c(sequence, last)
         assigned = TRUE
       } 
     }
   }
   
-  checkSequence(sequence, units)
+  check_sequence(sequence, units)
   
-  sequence
+  paste(c(sequence, toString(last)), sep = "", collapse = "")
+  return(sequence)
 }
