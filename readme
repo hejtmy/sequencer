@@ -9,7 +9,7 @@ What it does?
 This script creates a sequence of numbers so that every possible pair of these numbers (three numbers: 12, 13, 23, 31, 21, 32) 
 occurs given number of times.
 
-#createSequence takes four parametres:
+# createSequence takes four parametres:
 
 units : int - Number of different units/numbers you want to sequence 
 iterations: int - Number of iterations of all the possible pairs. 
@@ -19,14 +19,14 @@ bool: boolean - Changes behaviour of sample.int function. Read the readme file t
 checkSequence is a script written to evaluate the validity of a produced sequence. It returns a matrix in which the cells note the number of times 
 given pair occurs in the string parameter.
 
-#checkSequence takes two parameters:
+# checkSequence takes two parameters:
 
 sequence : string - Sequence you want to check
 num : int - number of different units there are in a sequence
 
 Example of what these script do:
-
-> a=createSequence(3,1,FALSE)
+```
+> a = createSequence(3,1,FALSE)
 > a
 [1] "2321312"
 
@@ -37,7 +37,7 @@ checkSequence(a,3)
 [2,]    1    0    1
 [3,]    1    1    0
 
-> a=createSequence(4,10)
+> a = createSequence(4,10)
 > a
 [1] "434324241232124314121213432413243214141423241314142424232324124121312312
 1423213431323431434343413142312314234213421312134"
@@ -49,7 +49,7 @@ checkSequence(a,3)
 [3,]   10   10    0   10
 [4,]   10   10   10    0
 
-> a=createSequence(4,4,samePair=T)
+> a = createSequence(4,4,samePair=T)
 > a
 [1] "34311321214341231443133324414222244341123412331323324242144221113"
 
@@ -59,3 +59,18 @@ checkSequence(a,3)
 [2,]    4    4    4    4
 [3,]    4    4    4    4
 [4,]    4    4    4    4
+```
+
+## BVA Sequence
+### create_bva_sequence
+Takes many parameters
+n_trials
+n_points
+max_same
+ego_relation
+allo_relation
+min_start_distance
+max_start_distance
+max_mark_distance 
+
+                               max_start_distance = 3, max_mark_distance = 4

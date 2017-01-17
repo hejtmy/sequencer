@@ -1,11 +1,11 @@
 #' @param n_trials: number or trials in the experiment - should be half nad half
 #' @param n_points: hwo many possible positions of marks and starts are at the 
 create_bva_sequence = function(n_trials, n_points, max_same, ego_relation, allo_relation, min_start_distance = 2, 
-                               max_start_distance = 3, max_mark_distance = 4){
+                               max_start_distance = 3, min_mark_distance = 4){
   starts = c()
   marks = c()
   
-  for(i in 1:50){
+  for(i in 1:500){ #Just tries to randomize the sequence. If it can't, it quits
     allo_ego = create_sequence(2, n_trials, max_same) 
     if (!is.null(allo_ego)) break
   }
@@ -23,9 +23,10 @@ create_bva_sequence = function(n_trials, n_points, max_same, ego_relation, allo_
       mark = 0
     } else {
       # places mark in an ark in front of player +- points away
-      mark = sample(c(-max_mark_distance:max_mark_distance), 1) + start + n_points/2
+      reverse_min = n_points/2 - min_mark_distance
+      mark = sample(c(-reverse_min:min_mark_distance), 1) + start + n_points/2
       mark = fit_circle(mark, n_points)
-      goal = starts[i_trial] + allo_relation
+      goal = mark + allo_relation
       goal = fit_circle(goal, n_points)
     }
     goal = fit_circle(goal, n_points)
