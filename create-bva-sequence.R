@@ -23,26 +23,18 @@ create_bva_sequence = function(n_trials, n_points, max_same, ego_relation, allo_
       mark = 0
     } else {
       # places mark in an ark in front of player +- points away
-      reverse_min = n_points/2 - min_mark_distance
-      mark = sample(c(-reverse_min:min_mark_distance), 1) + start + n_points/2
-      mark = fit_circle(mark, n_points)
-      goal = mark + allo_relation
-      goal = fit_circle(goal, n_points)
+      possible_points = possible_far_marks(start, min_mark_distance, n_points)
+      mark = sample(possible_points, 1)
+      goal = fit_circle(mark + allo_relation, n_points)
     }
     goal = fit_circle(goal, n_points)
     marks = c(marks, mark)
-    next_start = sample(c(-max_start_distance:-min_start_distance, 
-                          min_start_distance:max_start_distance), 1) + goal
-    next_start = fit_circle(next_start, n_points)
+    possible_starts = possible_marks(goal, n_points, min_dist = 1, max_dist = max_start_distance)
+    next_start = sample(possible_starts, 1)
     starts = c(starts, next_start)
   }
   starts = starts[-length(starts)] #removes redundant last start
+  starts = starts - 1 #reorders them to 0 beginning
+  marks = marks
   return(list(allo_ego = allo_ego, starts = starts, marks = marks))
-}
-
-#' Function fits the point on the circle of points 
-fit_circle = function(number, n_points){
-  number = (number + n_points) %% n_points
-  if (number == 0) number = n_points #we lose that in the division
-  return(number)
 }
