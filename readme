@@ -6,8 +6,7 @@ Important to note, this script is not functional all the time. For some unknown 
 
 What it does?
 
-This script creates a sequence of numbers so that every possible pair of these numbers (three numbers: 12, 13, 23, 31, 21, 32) 
-occurs given number of times.
+This script creates a sequence of numbers so that every possible pair of these numbers (three numbers: 12, 13, 23, 31, 21, 32) occurs given number of times.
 
 # createSequence takes four parametres:
 
@@ -16,12 +15,11 @@ iterations: int - Number of iterations of all the possible pairs.
 max_same: int - Number of times unit can occur after itself. Default is 0
 sample_replace: boolean - Changes behaviour of sample.int function. Read the readme file to sample.int
 
-check_sequence is a script written to evaluate the validity of a produced sequence. It returns a matrix in which the cells note the number of times 
-given pair occurs in the string parameter.
+check_sequence is a script written to evaluate the validity of a produced sequence. It returns a matrix in which the cells note the number of times given pair occurs in the string parameter.
 
 # check_sequence takes two parameters:
 
-sequence : string - Sequence you want to check
+sequence : int/char array - Sequence you want to check
 num : int - number of different units there are in a sequence
 
 Example of what these script do:

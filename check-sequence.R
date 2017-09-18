@@ -1,3 +1,6 @@
+#' @param sequence: int/char array of the sequence produces
+#' @param num: how many different elements shoudl there be in a sequence
+
 check_sequence = function (sequence, num){
   mat = matrix(nrow = num, ncol = num, byrow = TRUE)
   for (n in 1:num){
