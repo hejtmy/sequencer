@@ -1,6 +1,10 @@
+#' @param units: how many different units are there
+#' @param iterations: how many times shoulld each pair follow
 #' @param max_same: how many same units can follow
+#' @param sample_replace: defines sampling replacement parameter
 #' 
-create_sequence = function (units, iterations, max_same = 0, bool = FALSE){
+#' Creates sequence of numbers in a way that two numbers occur after each other exactly defined number of times
+create_sequence = function (units, iterations, max_same = 0, sample_replace = FALSE){
   
   #creates matrix with possible iterations
   matrix = matrix(data = iterations, nrow = units, ncol = units)
@@ -22,7 +26,7 @@ create_sequence = function (units, iterations, max_same = 0, bool = FALSE){
     }
   }
   #creates the first unit in the sequence
-  last = sample.int(units, 1, replace = bool)
+  last = sample.int(units, 1, replace = sample_replace)
   
   #starts writing the sequence
   sequence = last
@@ -35,11 +39,11 @@ create_sequence = function (units, iterations, max_same = 0, bool = FALSE){
     assignTry = 0
     # this loop randomly chooses next unit and if the itteration is possible it assigns it and skips forwards
     while (!assigned){
-      possib = sample.int(units, 1, replace = bool)
+      possib = sample.int(units, 1, replace = sample_replace)
       if (matrix[last, possib] != 0){
         if (possib == last){n_repetitions = n_repetitions + 1} else {n_repetitions = 0}
         #checks if we didn't already have it many times in a row
-        if (n_repetitions < max_same){
+        if (n_repetitions <= max_same){
           # lowers the number of iterations
           matrix[last, possib] = matrix[last, possib] - 1
           assigned = TRUE
