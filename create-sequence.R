@@ -2,9 +2,10 @@
 #' @param iterations: how many times shoulld each pair follow
 #' @param max_same: how many same units can follow
 #' @param sample_replace: defines sampling replacement parameter
+#' @param exclude_pairs: list of vector ints defining which pairs to exclude (say list(c(1,3),c(2,4)))
 #' 
 #' Creates sequence of numbers in a way that two numbers occur after each other exactly defined number of times
-create_sequence = function (units, iterations, max_same = 0, sample_replace = FALSE){
+create_sequence = function (units, iterations, max_same = 0, sample_replace = FALSE, exclude_pairs = c()){
   
   #creates matrix with possible iterations
   matrix = matrix(data = iterations, nrow = units, ncol = units)
@@ -25,6 +26,22 @@ create_sequence = function (units, iterations, max_same = 0, sample_replace = FA
       matrix[n, n] = 0
     }
   }
+  if (length(exclude_pairs)!= 0){
+    for(pair in exclude_pairs){
+      if(length(pair) != 2){
+        print("Each pair needs to have exacly two elements")
+        return(NULL)
+      }
+      x <- pair[1]
+      y <- pair[2]
+      if((x > units) || (y > units)){
+        print("Pairs cannot contain higher number than number of units")
+        return(NULL)
+      }
+      matrix[x, y] <- 0
+    }
+  }
+  
   #creates the first unit in the sequence
   last = sample.int(units, 1, replace = sample_replace)
   
@@ -94,7 +111,7 @@ create_sequence = function (units, iterations, max_same = 0, sample_replace = FA
     # DO this until you find a possible unit
     while(!assigned){
       # RAndomises a number
-      possib = sample.int(units, 1, replace = bool)
+      possib = sample.int(units, 1, replace = sample_replace)
       if (possib == last){n_repetitions = n_repetitions + 1} else {n_repetitions = 0}
       # If the last unit can iterate ot this number, it does
       if(discardedMatrix[last, possib] != 0){
@@ -111,7 +128,6 @@ create_sequence = function (units, iterations, max_same = 0, sample_replace = FA
   }
   
   check_sequence(sequence, units)
-  
-  paste(c(sequence, toString(last)), sep = "", collapse = "")
+  #paste(c(sequence, toString(last)), sep = "", collapse = "")
   return(sequence)
 }
